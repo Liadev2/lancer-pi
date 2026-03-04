@@ -1,5 +1,7 @@
 'use client';
 
+declare const Pi: any;   // ← Esto elimina el subrayado rojo en rojo
+
 import { useState } from 'react';
 
 export default function LancerPi() {
@@ -7,7 +9,6 @@ export default function LancerPi() {
   const [activeTab, setActiveTab] = useState<'market' | 'studio' | 'portfolio'>('market');
   const [hasCreativePass, setHasCreativePass] = useState(false);
 
-  // ==================== CONEXIÓN REAL CON PI ====================
   const connectWithPi = async () => {
     try {
       const user = await Pi.authenticate(['payments', 'username', 'profile']);
@@ -18,7 +19,6 @@ export default function LancerPi() {
     }
   };
 
-  // ==================== PAGO REAL CON ESCROW ====================
   const createEscrow = async (price: number, title: string) => {
     if (!piUser) {
       alert('Primero conecta tu cuenta Pi');
@@ -59,7 +59,7 @@ export default function LancerPi() {
   const generateWithAI = () => {
     const userPrompt = prompt("¿Qué quieres crear hoy?");
     if (userPrompt) {
-      alert(`✨ Generando con IA (Llama-3 + Stable Diffusion)...\n\n"${userPrompt}"\n\n✅ ¡Listo en segundos!\nResultado guardado en tu portafolio on-chain.`);
+      alert(`✨ Generando con IA...\n\n"${userPrompt}"\n\n✅ ¡Listo en segundos!`);
     }
   };
 
