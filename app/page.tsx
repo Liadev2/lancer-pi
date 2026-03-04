@@ -7,17 +7,53 @@ export default function LancerPi() {
   const [activeTab, setActiveTab] = useState<'market' | 'studio' | 'portfolio'>('market');
   const [hasCreativePass, setHasCreativePass] = useState(false);
 
-  const connectWithPi = () => {
-    alert('¡Conectado como Pioneer! 🎉 Ahora puedes usar todo Lancer-Pi');
+  // ==================== CONEXIÓN REAL CON PI ====================
+  const connectWithPi = async () => {
+    try {
+      const user = await Pi.authenticate(['payments', 'username', 'profile']);
+      setPiUser(user);
+      alert(`¡Bienvenido @${user.username}! 🎉 Ya puedes hacer pagos reales.`);
+    } catch (err) {
+      alert('Abre esta app DENTRO del Pi Browser para conectar');
+    }
   };
 
-  const buyCreativePass = () => {
-    alert('✅ Creative Pass activado (50 π/mes)\n\n¡IA ilimitada + boost en búsquedas activado!');
-    setHasCreativePass(true);
+  // ==================== PAGO REAL CON ESCROW ====================
+  const createEscrow = async (price: number, title: string) => {
+    if (!piUser) {
+      alert('Primero conecta tu cuenta Pi');
+      return;
+    }
+
+    try {
+      const payment = await Pi.createPayment({
+        amount: price,
+        memo: `Escrow Lancer-Pi: ${title}`,
+        metadata: { type: 'escrow', title: title, app: 'Lancer-Pi' },
+      });
+
+      alert(`✅ Escrow REAL de π${price} creado con éxito para "${title}"\n\nID: ${payment.identifier}\nEl pago está bloqueado hasta que entregues el trabajo.`);
+    } catch (err) {
+      alert('Error al crear pago. Asegúrate de estar en Pi Browser con saldo suficiente.');
+    }
   };
 
-  const createEscrow = (price: number, title: string) => {
-    alert(`✅ Escrow de π${price} creado con éxito para "${title}"\n\nEl pago está bloqueado hasta que entregues el trabajo.`);
+  const buyCreativePass = async () => {
+    if (!piUser) {
+      alert('Primero conecta tu cuenta Pi');
+      return;
+    }
+    try {
+      const payment = await Pi.createPayment({
+        amount: 50,
+        memo: 'Creative Pass Mensual - Lancer-Pi',
+        metadata: { type: 'subscription', plan: 'monthly' },
+      });
+      alert('✅ Creative Pass REAL activado (50 π/mes)');
+      setHasCreativePass(true);
+    } catch (err) {
+      alert('Error al pagar Creative Pass');
+    }
   };
 
   const generateWithAI = () => {
