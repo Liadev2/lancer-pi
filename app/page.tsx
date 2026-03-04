@@ -21,8 +21,10 @@ export default function LancerPi() {
   };
 
   const generateWithAI = () => {
-    const prompt = prompt("¿Qué quieres crear hoy?");
-    if (prompt) alert(`✨ Generando con IA (Llama-3 + Stable Diffusion)...\n\n"${prompt}"\n\n✅ ¡Listo en segundos!\nResultado guardado en tu portafolio on-chain.`);
+    const userPrompt = prompt("¿Qué quieres crear hoy?");
+    if (userPrompt) {
+      alert(`✨ Generando con IA (Llama-3 + Stable Diffusion)...\n\n"${userPrompt}"\n\n✅ ¡Listo en segundos!\nResultado guardado en tu portafolio on-chain.`);
+    }
   };
 
   return (
