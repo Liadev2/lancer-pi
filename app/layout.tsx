@@ -10,7 +10,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es">
       <head>
-        {/* Pi SDK oficial - OBLIGATORIO para pagos en Pi Browser */}
+        {/* Pi SDK oficial - obligatorio para pagos reales */}
         <script src="https://sdk.minepi.com/pi-sdk.js" async />
       </head>
       <body>{children}</body>
